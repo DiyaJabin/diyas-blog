@@ -40,7 +40,10 @@ def unauthorized():
 # CREATE DATABASE
 class Base(DeclarativeBase):
     pass
-app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('SQLITE_URI')
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv(
+    'SQLITE_URI',
+    'sqlite:////tmp/blog.db'
+)
 db = SQLAlchemy(model_class=Base)
 db.init_app(app)
 
