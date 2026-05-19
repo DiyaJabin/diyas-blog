@@ -15,7 +15,8 @@ from dotenv import load_dotenv
 import os
 
 load_dotenv()
-app = Flask(__name__)
+app = Flask(__name__,instance_path="/tmp/instance")
+os.makedirs("/tmp/instance",exist_ok=True)
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 ckeditor = CKEditor(app)
 Bootstrap5(app)
@@ -39,7 +40,7 @@ def unauthorized():
 # CREATE DATABASE
 class Base(DeclarativeBase):
     pass
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///posts.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('SQLITE_URI')
 db = SQLAlchemy(model_class=Base)
 db.init_app(app)
 
